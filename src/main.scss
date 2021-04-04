@@ -1,0 +1,29 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: black;
+}
+
+$radius: 50px;
+
+#s {
+    position: absolute;
+    left: -$radius;
+    top: -$radius;
+    width: calc(100vw + 50px);
+    height: calc(100vh + 50px);
+    // polygon {
+    //     fill: lightgray;
+    //     stroke-width: 4px;
+    //     stroke: black;
+    //     &:nth-child(7n + 1) {
+    //         fill: darkgray;
+    //     }
+    //     &:nth-child(5n + 1) {
+    //         fill: gray;
+    //     }
+    //     &:hover {
+    //         fill: white;
+    //     }
+    // }
+}
