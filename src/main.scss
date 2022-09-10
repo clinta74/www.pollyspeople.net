@@ -2,6 +2,21 @@ body {
     margin: 0;
     padding: 0;
     background-color: black;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+    position: relative;
+    margin: auto;
+    width: 80vw;
+    display: flex;
+    justify-content: center;
+}
+
+.title {
+    color: white;
+    padding: 1.5em;
+    background-color: rgba(200, 0, 200, .5)
 }
 
 $radius: 50px;
