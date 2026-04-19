@@ -1,7 +1,7 @@
 services:
   pollyspeople:
-    image: clinta74/pollyspeople:latest
+    image: candrews74/pollyspeople:latest
     container_name: pollyspeople
     restart: unless-stopped
     ports:
-      - "4180:80"
+      - '4180:80'

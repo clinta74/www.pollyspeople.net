@@ -1,6 +1,6 @@
 {
   "name": "www.pollyspeople.net",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "scripts": {
     "start": "parcel src/index.html --port 3000 --open",
