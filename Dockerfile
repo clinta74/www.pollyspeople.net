@@ -1,11 +1,11 @@
 # ── Stage 1: Build ────────────────────────────────────────────
-FROM node:22-slim AS build
+FROM node:22 AS build
 
 WORKDIR /app
 
 # Install dependencies first (layer cache)
 COPY package*.json ./
-RUN npm install
+RUN rm -f package-lock.json && npm install
 
 # Copy source and build
 COPY . .
