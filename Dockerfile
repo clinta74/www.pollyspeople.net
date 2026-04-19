@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends python3 make g+
 
 # Install dependencies first (layer cache)
 COPY package*.json ./
-RUN npm install
+RUN rm -f package-lock.json && npm install
 
 # Copy source and build
 COPY . .
