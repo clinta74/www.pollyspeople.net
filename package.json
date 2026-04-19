@@ -3,7 +3,7 @@
   "version": "1.0.3",
   "description": "",
   "scripts": {
-    "start": "parcel src/index.html --port 3000 --open",
+    "start": "concurrently --kill-others-on-fail \"http-server ./dogs -p 3001 --cors\" \"parcel src/index.html --port 3000 --open\"",
     "build": "parcel build src/index.html",
     "clean": "rm -Rf dist/"
   },
@@ -12,6 +12,8 @@
   "license": "ISC",
   "devDependencies": {
     "@parcel/transformer-sass": "^2.7.0",
+    "concurrently": "^9.0.0",
+    "http-server": "^14.1.1",
     "parcel": "^2.7.0",
     "sass": "^1.77.0",
     "typescript": "^4.2.3"
