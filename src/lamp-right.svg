@@ -1,16 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 520" aria-hidden="true">
   <defs>
     <linearGradient id="brass-v-r" x1="0" x2="1" y1="0" y2="0">
-      <stop offset="0%"   stop-color="#6a4e10"/>
-      <stop offset="25%"  stop-color="#b07820"/>
-      <stop offset="45%"  stop-color="#e8b840"/>
-      <stop offset="70%"  stop-color="#c9952a"/>
-      <stop offset="100%" stop-color="#8a6820"/>
+      <stop offset="0%"   stop-color="#342208"/>
+      <stop offset="25%"  stop-color="#5e4214"/>
+      <stop offset="45%"  stop-color="#8c6c24"/>
+      <stop offset="70%"  stop-color="#72521a"/>
+      <stop offset="100%" stop-color="#4e3410"/>
     </linearGradient>
     <linearGradient id="brass-h-r" x1="0" x2="0" y1="0" y2="1">
-      <stop offset="0%"   stop-color="#c9952a"/>
-      <stop offset="40%"  stop-color="#e8b840"/>
-      <stop offset="100%" stop-color="#6a4e10"/>
+      <stop offset="0%"   stop-color="#60461a"/>
+      <stop offset="40%"  stop-color="#806024"/>
+      <stop offset="100%" stop-color="#2e1c06"/>
     </linearGradient>
     <linearGradient id="glass-tube-r" x1="0" x2="1" y1="0" y2="0">
       <stop offset="0%"   stop-color="#2a2820" stop-opacity="0.9"/>
@@ -27,9 +27,9 @@
       <stop offset="100%" stop-color="#0a0a12"/>
     </linearGradient>
     <radialGradient id="riv-br" cx="30%" cy="28%" r="65%">
-      <stop offset="0%"   stop-color="#e8c060"/>
-      <stop offset="50%"  stop-color="#8a6820"/>
-      <stop offset="100%" stop-color="#3a2c08"/>
+      <stop offset="0%"   stop-color="#907030"/>
+      <stop offset="50%"  stop-color="#4a3210"/>
+      <stop offset="100%" stop-color="#1e1206"/>
     </radialGradient>
     <radialGradient id="tube-glow-r" cx="50%" cy="50%" r="50%">
       <stop offset="0%"   stop-color="#f5c040" stop-opacity="0.0"/>
@@ -54,19 +54,19 @@
 
   <!-- TOP CAP (centred at x=55) -->
   <rect x="1"  y="0"  width="108" height="30" fill="url(#brass-h-r)" rx="2"/>
-  <rect x="1"  y="0"  width="108" height="4"  fill="#e8c060" fill-opacity="0.5" rx="2"/>
+  <rect x="1"  y="0"  width="108" height="4"  fill="#e8c060" fill-opacity="0.14" rx="2"/>
   <circle cx="13"  cy="17" r="4" fill="url(#riv-br)" stroke="#3a2c08" stroke-width="0.8"/>
   <circle cx="27"  cy="17" r="4" fill="url(#riv-br)" stroke="#3a2c08" stroke-width="0.8"/>
   <circle cx="83"  cy="17" r="4" fill="url(#riv-br)" stroke="#3a2c08" stroke-width="0.8"/>
   <circle cx="97"  cy="17" r="4" fill="url(#riv-br)" stroke="#3a2c08" stroke-width="0.8"/>
 
   <rect x="9"  y="30" width="92" height="20" fill="url(#brass-h-r)" rx="2"/>
-  <rect x="9"  y="30" width="92" height="3"  fill="#e8c060" fill-opacity="0.4" rx="2"/>
+  <rect x="9"  y="30" width="92" height="3"  fill="#e8c060" fill-opacity="0.10" rx="2"/>
   <circle cx="21" cy="40" r="3.5" fill="url(#riv-br)" stroke="#3a2c08" stroke-width="0.8"/>
   <circle cx="89" cy="40" r="3.5" fill="url(#riv-br)" stroke="#3a2c08" stroke-width="0.8"/>
 
   <rect x="19" y="50" width="72" height="14" fill="url(#brass-h-r)" rx="1"/>
-  <rect x="19" y="50" width="72" height="2"  fill="#e8c060" fill-opacity="0.3" rx="1"/>
+  <rect x="19" y="50" width="72" height="2"  fill="#e8c060" fill-opacity="0.08" rx="1"/>
   <rect x="27" y="54" width="56" height="2" fill="#3a2c08" rx="0.5"/>
   <rect x="27" y="58" width="56" height="1" fill="#c9952a" fill-opacity="0.5" rx="0.5"/>
 
@@ -80,6 +80,10 @@
   <rect x="29" y="72" width="1.5" height="376" fill="#e8c060" fill-opacity="0.25"/>
 
   <!-- BOTTOM CAP -->
+  <!-- Tarnish patina overlays on both caps -->
+  <rect x="1"  y="0"   width="108" height="64"  fill="#283010" fill-opacity="0.28" rx="2"/>
+  <rect x="1"  y="456" width="108" height="64"  fill="#283010" fill-opacity="0.28" rx="2"/>
+  <!-- Narrowest collar -->
   <rect x="19" y="456" width="72" height="14" fill="url(#brass-h-r)" rx="1"/>
   <rect x="19" y="468" width="72" height="2"  fill="#3a2c08" fill-opacity="0.4" rx="1"/>
   <rect x="27" y="458" width="56" height="2" fill="#3a2c08" rx="0.5"/>

@@ -2,24 +2,36 @@
 //  Polly's People — 1940s scroll + lamp controller
 // ─────────────────────────────────────────────────────────────
 
-// ── Lamp positions (top offset relative to .lamp-stage, in vh units)
-const LAMP_POSITIONS: Record<string, number> = {
-    'lamp-1': 20,   // Home      — left
-    'lamp-2': 120,  // Projects  — right
-    'lamp-3': 220,  // Downloads — left
-    'lamp-4': 320,  // The Dogs  — right
-};
-
 const activeLamps = new Set<string>();
 
-// ── Position lamps absolutely on the page
+// ── Position each lamp so its vertical centre aligns with its section's title
 function positionLamps(): void {
-    for (const [id, vh] of Object.entries(LAMP_POSITIONS)) {
-        const el = document.getElementById(id);
-        if (el) {
-            el.style.top = `${vh}vh`;
-        }
-    }
+    const stage = document.querySelector<HTMLElement>('.lamp-stage');
+    if (!stage) return;
+
+    const stageTop = stage.getBoundingClientRect().top + window.scrollY;
+    const lampHeight = parseFloat(
+        getComputedStyle(document.documentElement).getPropertyValue('--lamp-height')
+    ) || 520;
+
+    document.querySelectorAll<HTMLElement>('.section[data-lamp]').forEach((section) => {
+        const lampId = section.dataset.lamp;
+        if (!lampId) return;
+        const lamp = document.getElementById(lampId);
+        if (!lamp) return;
+
+        // Home uses #logo; other sections use .section-header-svg
+        const title = section.querySelector<HTMLElement>('#logo, .section-header-svg');
+        if (!title) return;
+
+        const titleRect = title.getBoundingClientRect();
+        const titleTop = titleRect.top + window.scrollY - stageTop;
+        const isHome = section.id === 'home';
+        const offset = isHome
+            ? titleTop + titleRect.height / 2 - lampHeight / 2  // centre-align for home
+            : titleTop - lampHeight * 0.15;                      // top-align, shifted up 15% for other sections
+        lamp.style.top = `${Math.max(0, offset)}px`;
+    });
 }
 
 // ── Intersection observer — activate lamp when section scrolls into view
@@ -42,10 +54,18 @@ function initLampObserver(): void {
 
                     entry.target.classList.add('section-lit');
                     activeLamps.add(lampId);
+
+                    if (lampId === 'lamp-4') {
+                        document.getElementById('water-reflection-group')?.classList.add('is-active');
+                    }
                 } else {
                     lamp.classList.remove('is-active');
                     entry.target.classList.remove('section-lit');
                     activeLamps.delete(lampId);
+
+                    if (lampId === 'lamp-4') {
+                        document.getElementById('water-reflection-group')?.classList.remove('is-active');
+                    }
                 }
             });
         },
@@ -66,12 +86,18 @@ function triggerFlicker(lampId: string, sectionEl: HTMLElement): void {
     if (lampId === 'lamp-1') {
         document.getElementById('logo')?.classList.add('flickering');
     }
+    if (lampId === 'lamp-4') {
+        document.getElementById('water-reflection-group')?.classList.add('water-reflection-flickering');
+    }
 
     setTimeout(() => {
         lamp.classList.remove('lamp-flickering');
         sectionEl.classList.remove('header-flickering');
         if (lampId === 'lamp-1') {
             document.getElementById('logo')?.classList.remove('flickering');
+        }
+        if (lampId === 'lamp-4') {
+            document.getElementById('water-reflection-group')?.classList.remove('water-reflection-flickering');
         }
     }, 480);
 }
@@ -99,3 +125,5 @@ document.addEventListener('DOMContentLoaded', () => {
     initLampObserver();
     initAllFlickers();
 });
+
+window.addEventListener('resize', positionLamps);
