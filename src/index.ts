@@ -1,71 +1,101 @@
-let x, y, pointX, pointY, theta;
+// ─────────────────────────────────────────────────────────────
+//  Polly's People — 1940s scroll + lamp controller
+// ─────────────────────────────────────────────────────────────
 
-const svg = document.getElementById('s');
-const radius = 25;
+// ── Lamp positions (top offset relative to .lamp-stage, in vh units)
+const LAMP_POSITIONS: Record<string, number> = {
+    'lamp-1': 20,   // Home      — left
+    'lamp-2': 120,  // Projects  — right
+    'lamp-3': 220,  // Downloads — left
+    'lamp-4': 320,  // The Dogs  — right
+};
 
-let start: number | undefined;
+const activeLamps = new Set<string>();
 
-function getRandomInt(max: number) {
-    return Math.floor(Math.random() * max);
-}
-
-function hexPoints(x: number, y: number, radius: number) {
-    let points = [];
-    for (let theta = 0; theta < Math.PI * 2; theta += Math.PI / 3) {
-        let pointX, pointY;
-
-        pointX = x + radius * Math.sin(theta);
-        pointY = y + radius * Math.cos(theta);
-
-        points.push(pointX + ',' + pointY);
-    }
-
-    return points.join(' ');
-}
-
-function renderSvg(svg: HTMLElement | null) {
-
-    if (svg) {
-        svg.innerHTML = '';
-        const maxCol = (svg.clientWidth / radius);
-        const maxRow = (svg.clientHeight / radius);
-
-        for (let col = 0; col < maxCol; col++) {
-            for (let row = 0; row < maxRow; row++) {
-                const redColorValue = getRandomInt(150) + 106;
-                const greenColorValue = getRandomInt(10);
-                const blueColorValue = getRandomInt(50);
-                const fill = `rgb(${redColorValue}, ${greenColorValue}, ${redColorValue} `;// new Array(6).fill(colorValue, 0, 6).join('');
-                var offset = (Math.sqrt(3) * radius) / 2;
-                x = 40 + offset * col * 2;
-                y = 40 + offset * row * Math.sqrt(3);
-
-                if (row % 2 !== 0) x += offset;
-
-                var polygon = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
-                polygon.style.fill = fill;
-                polygon.style.stroke = 'black';
-                polygon.style.strokeWidth = '4px';
-                polygon.setAttribute('points', hexPoints(x, y, radius));
-
-                if (svg !== null) {
-                    svg.appendChild(polygon);
-                }
-            }
+// ── Position lamps absolutely on the page
+function positionLamps(): void {
+    for (const [id, vh] of Object.entries(LAMP_POSITIONS)) {
+        const el = document.getElementById(id);
+        if (el) {
+            el.style.top = `${vh}vh`;
         }
     }
 }
 
-function step(timestamp: number) {
-    if (start === undefined)
-        start = timestamp;
-    const elapsed = timestamp - start;
+// ── Intersection observer — activate lamp when section scrolls into view
+function initLampObserver(): void {
+    const sections = document.querySelectorAll<HTMLElement>('.section[data-lamp]');
 
-    if (elapsed > 750) {
-        start = timestamp;
-        renderSvg(svg);
-    }
-    window.requestAnimationFrame(step);
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                const lampId = (entry.target as HTMLElement).dataset.lamp;
+                if (!lampId) return;
+                const lamp = document.getElementById(lampId);
+                if (!lamp) return;
+
+                if (entry.isIntersecting) {
+                    // Re-trigger animation by briefly removing then re-adding class
+                    lamp.classList.remove('is-active');
+                    void lamp.offsetWidth; // force reflow
+                    lamp.classList.add('is-active');
+
+                    entry.target.classList.add('section-lit');
+                    activeLamps.add(lampId);
+                } else {
+                    lamp.classList.remove('is-active');
+                    entry.target.classList.remove('section-lit');
+                    activeLamps.delete(lampId);
+                }
+            });
+        },
+        { threshold: 0.35 }
+    );
+
+    sections.forEach((s) => observer.observe(s));
 }
 
-window.requestAnimationFrame(step);
+// ── Per-lamp flicker: fires only while the lamp is active.
+//    Lamp-1 also flickers the logo in lockstep.
+function triggerFlicker(lampId: string, sectionEl: HTMLElement): void {
+    const lamp = document.getElementById(lampId);
+    if (!lamp) return;
+
+    lamp.classList.add('lamp-flickering');
+    sectionEl.classList.add('header-flickering');
+    if (lampId === 'lamp-1') {
+        document.getElementById('logo')?.classList.add('flickering');
+    }
+
+    setTimeout(() => {
+        lamp.classList.remove('lamp-flickering');
+        sectionEl.classList.remove('header-flickering');
+        if (lampId === 'lamp-1') {
+            document.getElementById('logo')?.classList.remove('flickering');
+        }
+    }, 480);
+}
+
+function scheduleFlicker(lampId: string, sectionEl: HTMLElement): void {
+    const delay = 3000 + Math.random() * 8000;
+    setTimeout(() => {
+        if (activeLamps.has(lampId)) {
+            triggerFlicker(lampId, sectionEl);
+        }
+        scheduleFlicker(lampId, sectionEl);
+    }, delay);
+}
+
+function initAllFlickers(): void {
+    document.querySelectorAll<HTMLElement>('.section[data-lamp]').forEach((section) => {
+        const lampId = section.dataset.lamp;
+        if (lampId) scheduleFlicker(lampId, section);
+    });
+}
+
+// ── Bootstrap
+document.addEventListener('DOMContentLoaded', () => {
+    positionLamps();
+    initLampObserver();
+    initAllFlickers();
+});

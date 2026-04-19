@@ -1,44 +1,480 @@
-body {
+// ─────────────────────────────────────────────────────────────
+//  Polly's People — 1940s Dark Gothic Scroll Site
+// ─────────────────────────────────────────────────────────────
+
+:root {
+    --bg:               #060608;
+    --bg-section:       #080810;
+    --steel-dark:       #181820;
+    --steel-mid:        #3c3c4a;
+    --steel-highlight:  #8a8a9a;
+    --rust:             #4a2008;
+    --lamp-warm:        #f5c040;
+    --lamp-glow:        rgba(245, 192, 64, 0.18);
+    --lamp-glow-strong: rgba(245, 192, 64, 0.55);
+    --text-primary:     #c4c0b0;
+    --text-dim:         #504e48;
+
+    // Lamp geometry
+    --lamp-width:   110px;
+    --lamp-height:  520px;
+    --cone-width:   360px;
+}
+
+// ─── Reset ───────────────────────────────────────────────────
+
+*, *::before, *::after {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    background-color: black;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.container {
+html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text-primary);
+    font-family: 'Special Elite', serif;
+    overflow-x: hidden;
+}
+
+// ─── Lamp Stage (contains everything) ────────────────────────
+
+.lamp-stage {
     position: relative;
-    margin: auto;
-    width: 80vw;
+    width: 100%;
+}
+
+// ─── Sections ────────────────────────────────────────────────
+
+.section {
+    position: relative;
+    min-height: 100vh;
     display: flex;
+    align-items: center;
     justify-content: center;
+    padding: 80px var(--lamp-width);
+
+    &--home {
+        flex-direction: column;
+        gap: 2rem;
+        background:
+            radial-gradient(ellipse 60% 40% at 50% 50%, #0e0e18 0%, var(--bg) 100%);
+    }
+
+    &--projects,
+    &--downloads,
+    &--dogs {
+        border-top: 1px solid var(--steel-dark);
+        background: linear-gradient(180deg, #07070e 0%, #060608 100%);
+    }
 }
 
-.title {
-    color: white;
-    padding: 1.5em;
-    background-color: rgba(200, 0, 200, .5)
+.section-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+    max-width: 900px;
+    width: 100%;
 }
 
-$radius: 50px;
+.section-placeholder {
+    color: var(--text-dim);
+    font-size: 1.1rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    border: 1px solid var(--steel-dark);
+    padding: 2rem 3rem;
+    width: 100%;
+    text-align: center;
+}
 
-#s {
+// ─── Project Cards ────────────────────────────────────────────
+
+.project-card {
+    width: 100%;
+    border: 1px solid #3a2800;
+    background: linear-gradient(160deg, #100e06 0%, #080608 100%);
+    padding: 2rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    &__header {
+        display: flex;
+        align-items: baseline;
+        gap: 1.2rem;
+    }
+
+    &__name {
+        font-family: 'Metal Mania', serif;
+        font-size: 1.6rem;
+        background: linear-gradient(180deg, #f8e070 0%, #c08828 50%, #e0b038 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    &__lang {
+        font-family: 'Special Elite', serif;
+        font-size: 0.75rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--text-dim);
+        border: 1px solid var(--steel-dark);
+        padding: 0.15em 0.6em;
+    }
+
+    &__desc {
+        font-family: 'Special Elite', serif;
+        font-size: 0.95rem;
+        color: #9a9088;
+        line-height: 1.7;
+        letter-spacing: 0.03em;
+    }
+
+    &__link {
+        align-self: flex-start;
+        font-family: 'Special Elite', serif;
+        font-size: 0.85rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: #c09030;
+        text-decoration: none;
+        border-bottom: 1px solid #3a2800;
+        padding-bottom: 2px;
+        transition: color 0.2s, border-color 0.2s;
+
+        &:hover {
+            color: #f0d060;
+            border-color: #c09030;
+        }
+    }
+}
+
+// ─── Download List ────────────────────────────────────────────
+
+.download-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    border: 1px solid #3a2800;
+}
+
+.download-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 1.4rem 2rem;
+    background: linear-gradient(160deg, #100e06 0%, #080608 100%);
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+    }
+
+    &__name {
+        font-family: 'Metal Mania', serif;
+        font-size: 1.25rem;
+        background: linear-gradient(180deg, #f8e070 0%, #c08828 50%, #e0b038 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    &__version {
+        font-size: 0.85rem;
+        opacity: 0.7;
+    }
+
+    &__platform {
+        font-family: 'Special Elite', serif;
+        font-size: 0.75rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text-dim);
+    }
+
+    &__desc {
+        font-family: 'Special Elite', serif;
+        font-size: 0.85rem;
+        color: #6a6060;
+        letter-spacing: 0.04em;
+    }
+
+    &__btn {
+        flex-shrink: 0;
+        font-family: 'Special Elite', serif;
+        font-size: 0.8rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        text-decoration: none;
+        color: #080608;
+        background: linear-gradient(180deg, #f0d060 0%, #c08828 100%);
+        padding: 0.55em 1.4em;
+        border: 1px solid #a07020;
+        transition: filter 0.2s;
+
+        &:hover {
+            filter: brightness(1.2);
+        }
+    }
+}
+
+// ─── Logo ─────────────────────────────────────────────────────
+
+#logo {
+    width: clamp(280px, 88vw, 900px);
+    height: auto;
+    display: block;
+
+    // Flicker animation class added/removed by JS
+    &.flickering {
+        animation: logo-flicker 0.45s steps(1) forwards;
+    }
+}
+
+@keyframes logo-flicker {
+    0%   { opacity: 1.0; filter: brightness(1.0); }
+    8%   { opacity: 0.05; filter: brightness(0.1); }
+    16%  { opacity: 0.9;  filter: brightness(1.3); }
+    24%  { opacity: 0.02; filter: brightness(0.0); }
+    32%  { opacity: 0.85; filter: brightness(1.1); }
+    48%  { opacity: 0.2;  filter: brightness(0.3); }
+    56%  { opacity: 1.0;  filter: brightness(1.4); }
+    72%  { opacity: 0.5;  filter: brightness(0.6); }
+    84%  { opacity: 1.0;  filter: brightness(1.0); }
+    100% { opacity: 1.0;  filter: brightness(1.0); }
+}
+
+.home-tagline {
+    font-family: 'Special Elite', serif;
+    color: var(--text-dim);
+    font-size: clamp(0.75rem, 1.5vw, 1rem);
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+}
+
+// ─── Section Header SVGs ──────────────────────────────────────
+
+.section-header-svg {
+    width: clamp(260px, 55vw, 580px);
+    height: auto;
+    display: block;
+}
+
+// ─── Art Deco Sconce Fixtures ────────────────────────────────
+
+.lamp {
     position: absolute;
-    left: -$radius;
-    top: -$radius;
-    width: calc(100vw + 50px);
-    height: calc(100vh + 50px);
-    // polygon {
-    //     fill: lightgray;
-    //     stroke-width: 4px;
-    //     stroke: black;
-    //     &:nth-child(7n + 1) {
-    //         fill: darkgray;
-    //     }
-    //     &:nth-child(5n + 1) {
-    //         fill: gray;
-    //     }
-    //     &:hover {
-    //         fill: white;
-    //     }
-    // }
+    width: var(--lamp-width);
+    top: 0;          // JS overrides per-lamp via inline style
+    z-index: 20;
+    display: flex;
+    align-items: flex-start;
+
+    &--left  { left: 0; flex-direction: row; }
+    &--right { right: 0; flex-direction: row-reverse; }
+
+    .lamp-fixture {
+        // The SVG file renders at the lamp width; height auto-scales via viewBox
+        width: var(--lamp-width);
+        height: var(--lamp-height);
+        flex-shrink: 0;
+        display: block;
+        // Subtle ambient shadow so it reads against the dark wall
+        filter: drop-shadow(0 0 4px rgba(0,0,0,0.8));
+        transition: filter 0.4s ease;
+    }
+
+    // Warm amber glow spread behind the tube — separate div so it bleeds beyond the SVG
+    .lamp-tube-glow {
+        position: absolute;
+        top: 0;
+        width: 180px;
+        height: var(--lamp-height);
+        border-radius: 8px;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.5s ease;
+        background: radial-gradient(
+            ellipse 60% 90% at 50% 50%,
+            rgba(255, 230, 140, 0.60) 0%,
+            rgba(255, 210, 80,  0.45) 12%,
+            rgba(245, 170, 30,  0.28) 28%,
+            rgba(220, 130, 5,   0.12) 48%,
+            rgba(200, 100, 0,   0.04) 68%,
+            transparent 88%
+        );
+    }
+
+    &--left  .lamp-tube-glow { left: 0; }
+    &--right .lamp-tube-glow { right: 0; }
+
+    // Side light cone (wide ambient cast from the tube face)
+    .light-cone {
+        position: absolute;
+        top: 0;
+        width: var(--cone-width);
+        height: 100%;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.5s ease;
+    }
+
+    .light-cone--right {
+        left: calc(var(--lamp-width) - 20px);
+        background: radial-gradient(
+            ellipse 90% 70% at 0% 50%,
+            rgba(255, 235, 140, 0.28) 0%,
+            rgba(250, 210, 80,  0.18) 15%,
+            rgba(245, 185, 40,  0.10) 35%,
+            rgba(240, 160, 10,  0.04) 58%,
+            transparent 80%
+        );
+        clip-path: polygon(0 12%, 100% 0%, 100% 100%, 0 88%);
+    }
+
+    .light-cone--left {
+        right: calc(var(--lamp-width) - 20px);
+        background: radial-gradient(
+            ellipse 90% 70% at 100% 50%,
+            rgba(255, 235, 140, 0.28) 0%,
+            rgba(250, 210, 80,  0.18) 15%,
+            rgba(245, 185, 40,  0.10) 35%,
+            rgba(240, 160, 10,  0.04) 58%,
+            transparent 80%
+        );
+        clip-path: polygon(100% 12%, 0% 0%, 0% 100%, 100% 88%);
+    }
+
+    // Active state — lamp is lit
+    &.is-active {
+
+        .lamp-fixture {
+            filter:
+                drop-shadow(0 0 6px rgba(245, 192, 64, 0.6))
+                drop-shadow(0 0 22px rgba(245, 160, 0, 0.35));
+        }
+
+        .lamp-tube-glow {
+            opacity: 1;
+            animation: lamp-warmup 1.6s ease-out;
+        }
+
+        .light-cone {
+            opacity: 1;
+            animation: lamp-warmup 1.6s ease-out;
+        }
+    }
+
+    // Synced flicker — added/removed by JS in lockstep with #logo.flickering
+    &.lamp-flickering {
+
+        .light-cone {
+            opacity: 1 !important;
+            animation: cone-flicker 0.45s steps(1) forwards !important;
+        }
+
+        .lamp-tube-glow {
+            opacity: 1 !important;
+            animation: cone-flicker 0.45s steps(1) forwards !important;
+        }
+
+        .lamp-fixture {
+            animation: fixture-flicker 0.45s steps(1) forwards !important;
+        }
+    }
+}
+
+// Section title flickers in sync with its lamp
+.section.header-flickering {
+    .section-header-svg {
+        animation: cone-flicker 0.45s steps(1) forwards !important;
+    }
+}
+
+@keyframes lamp-warmup {
+    0%   { opacity: 0;    filter: brightness(2.5); }
+    5%   { opacity: 0.6;  filter: brightness(3.0); }
+    10%  { opacity: 0.1;  filter: brightness(0.5); }
+    18%  { opacity: 0.7;  filter: brightness(2.0); }
+    26%  { opacity: 0.15; filter: brightness(0.4); }
+    38%  { opacity: 0.85; filter: brightness(1.5); }
+    55%  { opacity: 0.5;  filter: brightness(1.2); }
+    70%  { opacity: 0.95; filter: brightness(1.1); }
+    85%  { opacity: 0.85; filter: brightness(1.0); }
+    100% { opacity: 1.0;  filter: brightness(1.0); }
+}
+
+// Light cone flicker — mirrors logo-flicker timing exactly
+@keyframes cone-flicker {
+    0%   { opacity: 1.0; }
+    8%   { opacity: 0.04; }
+    16%  { opacity: 0.85; }
+    24%  { opacity: 0.02; }
+    32%  { opacity: 0.80; }
+    48%  { opacity: 0.15; }
+    56%  { opacity: 1.0; }
+    72%  { opacity: 0.45; }
+    84%  { opacity: 1.0; }
+    100% { opacity: 1.0; }
+}
+
+// Lamp fixture glow flicker — dims/surges the housing glow in sync
+@keyframes fixture-flicker {
+    0%   { filter: drop-shadow(0 0 8px  rgba(245,192,64,0.70)) drop-shadow(0 0 20px rgba(245,160,0,0.40)); }
+    8%   { filter: drop-shadow(0 0 0px  rgba(245,192,64,0.00)); }
+    16%  { filter: drop-shadow(0 0 16px rgba(245,192,64,0.90)) drop-shadow(0 0 32px rgba(245,160,0,0.70)); }
+    24%  { filter: drop-shadow(0 0 0px  rgba(245,192,64,0.00)); }
+    32%  { filter: drop-shadow(0 0 8px  rgba(245,192,64,0.70)); }
+    48%  { filter: drop-shadow(0 0 2px  rgba(245,192,64,0.20)); }
+    56%  { filter: drop-shadow(0 0 18px rgba(245,192,64,1.00)) drop-shadow(0 0 36px rgba(245,160,0,0.80)); }
+    72%  { filter: drop-shadow(0 0 5px  rgba(245,192,64,0.40)); }
+    84%  { filter: drop-shadow(0 0 8px  rgba(245,192,64,0.70)) drop-shadow(0 0 20px rgba(245,160,0,0.40)); }
+    100% { filter: drop-shadow(0 0 8px  rgba(245,192,64,0.70)) drop-shadow(0 0 20px rgba(245,160,0,0.40)); }
+}
+
+// ─── Responsive ───────────────────────────────────────────────
+
+@media (max-width: 768px) {
+    :root {
+        --lamp-width:   64px;
+        --lamp-height:  300px;
+        --cone-width:   200px;
+    }
+
+    .section {
+        padding: 60px var(--lamp-width);
+    }
+}
+
+@media (max-width: 480px) {
+    :root {
+        --lamp-width: 0px;
+    }
+
+    .lamp {
+        display: none;
+    }
+
+    // Compensate with a subtle edge glow on each active section
+    .section.section-lit {
+        box-shadow: inset 0 0 60px rgba(245, 192, 64, 0.06);
+    }
+
+    .section {
+        padding: 60px 24px;
+    }
+
+    #logo {
+        width: clamp(240px, 92vw, 900px);
+    }
 }
