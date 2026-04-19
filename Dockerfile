@@ -3,12 +3,9 @@ FROM node:22-slim AS build
 
 WORKDIR /app
 
-# Install build tools required for native modules (e.g. lmdb via node-gyp)
-RUN apt-get update && apt-get install -y --no-install-recommends python3 make g++ && rm -rf /var/lib/apt/lists/*
-
 # Install dependencies first (layer cache)
 COPY package*.json ./
-RUN rm -f package-lock.json && npm install
+RUN npm install
 
 # Copy source and build
 COPY . .
