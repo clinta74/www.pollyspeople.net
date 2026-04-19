@@ -1,6 +1,6 @@
 {
   "name": "www.pollyspeople.net",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
   "scripts": {
     "start": "concurrently --kill-others-on-fail \"http-server ./dogs -p 3001 --cors\" \"parcel src/index.html --port 3000 --open\"",
