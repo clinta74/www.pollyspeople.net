@@ -509,8 +509,8 @@ body {
 
 .dogs-gallery {
     position: relative;
-    width: 320px;
-    height: 440px;
+    width: 384px;
+    height: 528px;
     margin: 4rem auto 0;
     cursor: pointer;
     flex-shrink: 0;
@@ -539,7 +539,7 @@ body {
     border-radius: 2px;
     border: 1px solid #000;
     background:
-        radial-gradient(ellipse 65% 55% at 40% 35%, #3a0c10 0%, #220608 50%, #0e0204 100%);
+        radial-gradient(ellipse 65% 55% at 40% 35%, #c01828 0%, #7a0c16 50%, #3a0408 100%);
     transform-origin: 50% 100%;
     will-change: transform;
     user-select: none;

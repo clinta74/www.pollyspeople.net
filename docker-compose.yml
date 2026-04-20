@@ -7,4 +7,4 @@ services:
       - '4180:80'
     volumes:
       # Mount dogs/ so photos can be added/updated without rebuilding the image
-      - ./dogs:/usr/share/nginx/html/dogs
+      - /mnt/Data/dogs:/usr/share/nginx/html/dogs:z

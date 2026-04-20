@@ -244,10 +244,25 @@ async function initDogGallery(): Promise<void> {
     // Enable smooth restack transitions only after initial placement
     requestAnimationFrame(() => galleryEl.classList.add('dogs-gallery--ready'));
 
-    galleryEl.addEventListener('click', cycleTop);
+    // Track last manual interaction time (0 = never, so auto-advance fires immediately)
+    let lastInteractionTime = 0;
+
+    function handleInteraction(): void {
+        lastInteractionTime = Date.now();
+        cycleTop();
+    }
+
+    galleryEl.addEventListener('click', handleInteraction);
     galleryEl.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); cycleTop(); }
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleInteraction(); }
     });
+
+    // Auto-advance every 20 s, but only if no interaction in the last 60 s
+    setInterval(() => {
+        if (Date.now() - lastInteractionTime >= 60_000) {
+            cycleTop();
+        }
+    }, 20_000);
 }
 
 // ── Bootstrap
