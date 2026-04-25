@@ -695,6 +695,11 @@ body {
     .section {
         padding: 60px var(--lamp-width);
     }
+
+    #logo {
+        width: 100%;
+        max-width: 100%;
+    }
 }
 
 @media (max-width: 480px) {
@@ -709,6 +714,7 @@ body {
     }
 
     #logo {
-        width: clamp(240px, 92vw, 900px);
+        width: 100%;
+        max-width: 100%;
     }
 }
