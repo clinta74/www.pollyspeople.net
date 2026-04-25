@@ -17,30 +17,22 @@
 
         <!-- Art Deco Sconce 1  Left  Home -->
         <div class="lamp lamp--left" id="lamp-1">
-            <img class="lamp-fixture" src="lamp-left.svg" alt="" aria-hidden="true"/>
-            <div class="lamp-tube-glow"></div>
-            <div class="light-cone light-cone--right"></div>
+            <img class="lamp-fixture" src="lamp-fixture.png" alt="" aria-hidden="true"/>
         </div>
 
         <!-- Art Deco Sconce 2  Right  Projects -->
         <div class="lamp lamp--right" id="lamp-2">
-            <img class="lamp-fixture" src="lamp-right.svg" alt="" aria-hidden="true"/>
-            <div class="lamp-tube-glow"></div>
-            <div class="light-cone light-cone--left"></div>
+            <img class="lamp-fixture" src="lamp-fixture.png" alt="" aria-hidden="true"/>
         </div>
 
         <!-- Art Deco Sconce 3  Left  Downloads -->
         <div class="lamp lamp--left" id="lamp-3">
-            <img class="lamp-fixture" src="lamp-left.svg" alt="" aria-hidden="true"/>
-            <div class="lamp-tube-glow"></div>
-            <div class="light-cone light-cone--right"></div>
+            <img class="lamp-fixture" src="lamp-fixture.png" alt="" aria-hidden="true"/>
         </div>
 
         <!-- Art Deco Sconce 4  Right  The Dogs -->
         <div class="lamp lamp--right" id="lamp-4">
-            <img class="lamp-fixture" src="lamp-right.svg" alt="" aria-hidden="true"/>
-            <div class="lamp-tube-glow"></div>
-            <div class="light-cone light-cone--left"></div>
+            <img class="lamp-fixture" src="lamp-fixture.png" alt="" aria-hidden="true"/>
         </div>
 
         <!-- 
@@ -235,39 +227,6 @@
         </section>
 
     </div><!-- /.lamp-stage -->
-
-    <!-- ── Water reflection footer ── -->
-    <div class="water-footer" aria-hidden="true">
-        <!-- 3D tilted water plane: bottom = near viewer, top = far horizon -->
-        <div class="water-plane">
-            <svg class="water-svg" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-                <defs>
-                    <filter id="water-ripple" x="-5%" y="-5%" width="110%" height="110%">
-                        <feTurbulence type="turbulence"
-                            baseFrequency="0.022 0.055" numOctaves="3" seed="6">
-                            <animate attributeName="baseFrequency"
-                                values="0.022 0.055; 0.026 0.050; 0.022 0.055"
-                                dur="5.5s" repeatCount="indefinite"/>
-                        </feTurbulence>
-                        <feDisplacementMap in="SourceGraphic" scale="8"
-                            xChannelSelector="R" yChannelSelector="G"/>
-                    </filter>
-                </defs>
-                <!-- Subtle horizontal shimmer lines distorted by the ripple filter -->
-                <rect x="0" y="0" width="100%" height="100%"
-                    fill="rgba(30,30,65,0.18)" filter="url(#water-ripple)"/>
-            </svg>
-        </div>
-
-        <!-- Lamp-4 (right) reflection — CSS element outside the 3D transform
-             so it renders reliably. Active state and flicker driven by JS. -->
-        <div class="water-reflection" id="water-reflection-group">
-            <div class="water-reflection__halo"></div>
-            <div class="water-reflection__streak"></div>
-            <div class="water-reflection__ripples"></div>
-            <div class="water-reflection__core"></div>
-        </div>
-    </div>
 
     <script type="module" src="index.ts"></script>
 </body>

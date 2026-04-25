@@ -56,17 +56,10 @@ function initLampObserver(): void {
                     entry.target.classList.add('section-lit');
                     activeLamps.add(lampId);
 
-                    if (lampId === 'lamp-4') {
-                        document.getElementById('water-reflection-group')?.classList.add('is-active');
-                    }
                 } else {
                     lamp.classList.remove('is-active');
                     entry.target.classList.remove('section-lit');
                     activeLamps.delete(lampId);
-
-                    if (lampId === 'lamp-4') {
-                        document.getElementById('water-reflection-group')?.classList.remove('is-active');
-                    }
                 }
             });
         },
@@ -87,18 +80,11 @@ function triggerFlicker(lampId: string, sectionEl: HTMLElement): void {
     if (lampId === 'lamp-1') {
         document.getElementById('logo')?.classList.add('flickering');
     }
-    if (lampId === 'lamp-4') {
-        document.getElementById('water-reflection-group')?.classList.add('water-reflection-flickering');
-    }
-
     setTimeout(() => {
         lamp.classList.remove('lamp-flickering');
         sectionEl.classList.remove('header-flickering');
         if (lampId === 'lamp-1') {
             document.getElementById('logo')?.classList.remove('flickering');
-        }
-        if (lampId === 'lamp-4') {
-            document.getElementById('water-reflection-group')?.classList.remove('water-reflection-flickering');
         }
     }, 480);
 }

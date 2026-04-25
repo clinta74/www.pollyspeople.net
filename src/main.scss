@@ -3,8 +3,8 @@
 // ─────────────────────────────────────────────────────────────
 
 :root {
-    --bg:               #060608;
-    --bg-section:       #080810;
+    --bg:               #000000;
+    --bg-section:       #000000;
     --steel-dark:       #181820;
     --steel-mid:        #3c3c4a;
     --steel-highlight:  #8a8a9a;
@@ -16,7 +16,7 @@
     --text-dim:         #504e48;
 
     // Lamp geometry
-    --lamp-width:   110px;
+    --lamp-width:   200px;
     --lamp-height:  520px;
     --cone-width:   720px;
 }
@@ -62,15 +62,14 @@ body {
     &--home {
         flex-direction: column;
         gap: 2rem;
-        background:
-            radial-gradient(ellipse 60% 40% at 50% 50%, #0e0e18 0%, var(--bg) 100%);
+        background: #000000;
     }
 
     &--projects,
     &--downloads,
     &--dogs {
         border-top: 1px solid var(--steel-dark);
-        background: linear-gradient(180deg, #07070e 0%, #060608 100%);
+        background: #000000;
     }
 }
 
@@ -286,117 +285,23 @@ body {
     &--right { right: 0; flex-direction: row-reverse; }
 
     .lamp-fixture {
-        // The SVG file renders at the lamp width; height auto-scales via viewBox
         width: var(--lamp-width);
         height: var(--lamp-height);
+        object-fit: contain;
+        object-position: top center;
         flex-shrink: 0;
         display: block;
-        // Subtle ambient shadow so it reads against the dark wall
         filter: drop-shadow(0 0 4px rgba(0,0,0,0.8));
         transition: filter 0.4s ease;
     }
 
-    // Warm amber glow spread behind the tube — separate div so it bleeds beyond the SVG
-    .lamp-tube-glow {
-        position: absolute;
-        top: 0;
-        width: 180px;
-        height: var(--lamp-height);
-        border-radius: 8px;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.5s ease;
-        background: radial-gradient(
-            ellipse 60% 90% at 50% 50%,
-            rgba(255, 230, 140, 0.60) 0%,
-            rgba(255, 210, 80,  0.45) 12%,
-            rgba(245, 170, 30,  0.28) 28%,
-            rgba(220, 130, 5,   0.12) 48%,
-            rgba(200, 100, 0,   0.04) 68%,
-            transparent 88%
-        );
-    }
+    &--right .lamp-fixture { transform: scaleX(-1); }
 
-    &--left  .lamp-tube-glow { left: 0; }
-    &--right .lamp-tube-glow { right: 0; }
+    // Active state — lamp is lit (no visual effects, JS still tracks state)
+    &.is-active {}
 
-    // Side light cone (wide ambient cast from the tube face)
-    // Centered on the fixture and taller than the fixture so the gradient
-    // can diffuse above and below the lamp naturally.
-    .light-cone {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        width: var(--cone-width);
-        height: calc(var(--lamp-height) * 2);
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.5s ease;
-    }
-
-    .light-cone--right {
-        left: calc(var(--lamp-width) - 20px);
-        background: radial-gradient(
-            ellipse 90% 45% at 0% 50%,
-            rgba(255, 235, 140, 0.28) 0%,
-            rgba(250, 210, 80,  0.18) 15%,
-            rgba(245, 185, 40,  0.10) 35%,
-            rgba(240, 160, 10,  0.04) 58%,
-            transparent 80%
-        );
-        clip-path: polygon(0 28.5%, 100% 0%, 100% 100%, 0 71%);
-    }
-
-    .light-cone--left {
-        right: calc(var(--lamp-width) - 20px);
-        background: radial-gradient(
-            ellipse 90% 45% at 100% 50%,
-            rgba(255, 235, 140, 0.28) 0%,
-            rgba(250, 210, 80,  0.18) 15%,
-            rgba(245, 185, 40,  0.10) 35%,
-            rgba(240, 160, 10,  0.04) 58%,
-            transparent 80%
-        );
-        clip-path: polygon(100% 28.5%, 0% 0%, 0% 100%, 100% 71%);
-    }
-
-    // Active state — lamp is lit
-    &.is-active {
-
-        .lamp-fixture {
-            filter:
-                drop-shadow(0 0 6px rgba(245, 192, 64, 0.6))
-                drop-shadow(0 0 22px rgba(245, 160, 0, 0.35));
-        }
-
-        .lamp-tube-glow {
-            opacity: 1;
-            animation: lamp-warmup 1.6s ease-out;
-        }
-
-        .light-cone {
-            opacity: 1;
-            animation: lamp-warmup 1.6s ease-out;
-        }
-    }
-
-    // Synced flicker — added/removed by JS in lockstep with #logo.flickering
-    &.lamp-flickering {
-
-        .light-cone {
-            opacity: 1 !important;
-            animation: cone-flicker 0.45s steps(1) forwards !important;
-        }
-
-        .lamp-tube-glow {
-            opacity: 1 !important;
-            animation: cone-flicker 0.45s steps(1) forwards !important;
-        }
-
-        .lamp-fixture {
-            animation: fixture-flicker 0.45s steps(1) forwards !important;
-        }
-    }
+    // Flicker — lamp div gets class but has no visual effect; title flicker handled separately
+    &.lamp-flickering {}
 }
 
 // Section title flickers in sync with its lamp
@@ -511,9 +416,23 @@ body {
     position: relative;
     width: 384px;
     height: 528px;
-    margin: 4rem auto 0;
+    // margin: auto fails to center overflowing flex items (it resolves to 0 when there
+    // is no free space). Explicit calc(50% - 192px) places the center at 50% of the
+    // container width at any size — negative values work fine and keep the card centered
+    // even when it overflows. align-self: flex-start opts out of align-items so our
+    // explicit margin wins.
+    margin-top: 4rem;
+    margin-left: calc(50% - 192px);
+    margin-right: 0;
+    margin-bottom: calc(min(528px, (100vw - 2 * var(--lamp-width)) * 1.375) - 528px);
     cursor: pointer;
     flex-shrink: 0;
+    align-self: flex-start;
+
+    // Scale down proportionally when the viewport is narrower than the card.
+    // min(1, …) prevents upscaling on wide screens.
+    transform-origin: top center;
+    transform: scale(min(1, calc((100vw - 2 * var(--lamp-width)) / 384px)));
 
     &:focus-visible {
         outline: 1px solid #806024;
@@ -649,179 +568,11 @@ body {
     pointer-events: none;
 }
 
-// ─── Water Reflection Footer ─────────────────────────────────
-
-// Overlaps the bottom of the last section so there is no hard line.
-.water-footer {
-    position: relative;
-    width: 100%;
-    height: 480px;
-    margin-top: -220px;
-    background: transparent;
-    overflow: hidden;
-    perspective: 680px;
-    perspective-origin: 50% 0%;
-    z-index: 0;
-
-    // Top: fades from the exact dogs-section bottom colour — eliminates the hard line
-    &::before {
-        content: '';
-        position: absolute;
-        top: 0; left: 0; right: 0;
-        height: 52%;
-        background: linear-gradient(to bottom, #060608 0%, transparent 100%);
-        z-index: 5;
-        pointer-events: none;
-    }
-
-    // Bottom: dissolves into black
-    &::after {
-        content: '';
-        position: absolute;
-        bottom: 0; left: 0; right: 0;
-        height: 30%;
-        background: linear-gradient(to top, #000006 0%, transparent 100%);
-        z-index: 5;
-        pointer-events: none;
-    }
-}
-
-// 3D tilted plane — bottom edge = near viewer, top edge = far horizon
-.water-plane {
-    position: absolute;
-    bottom: 0;
-    left: -10%;
-    width: 120%;
-    height: 230%;
-    transform: rotateX(62deg);
-    transform-origin: 50% 100%;
-    z-index: 1;
-    background:
-        repeating-linear-gradient(
-            transparent 0px,
-            transparent 8px,
-            rgba(30, 30, 65, 0.28) 8px,
-            rgba(30, 30, 65, 0.28) 9px
-        ),
-        linear-gradient(180deg, #06061a 0%, #0d0d26 100%);
-    // Wavy left/right edges (polygon) + soft fade at left/right extremes (mask)
-    clip-path: polygon(
-        0%    0%,   1.4% 7%,  0.2% 15%, 1.8% 24%, 0.6% 33%,
-        1.3%  42%,  0.1% 51%, 1.7% 60%, 0.5% 69%, 1.2% 78%,
-        0.3%  87%,  1.5% 94%, 0%   100%,
-        100%  100%, 98.5% 93%, 99.7% 85%, 98.2% 77%, 99.5% 68%,
-        98.7% 59%,  99.9% 50%, 98.3% 41%, 99.4% 32%, 98.2% 23%,
-        99.8% 14%,  98.6% 6%,  100% 0%
-    );
-    mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
-}
-
-.water-svg {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    display: block;
-    mix-blend-mode: screen;
-    opacity: 0.6;
-}
-
-// ── Lamp-4 reflection — pure radial gradients, no clipping, all edges naturally soft
-.water-reflection {
-    position: absolute;
-    right: 32%;        // further from the right edge
-    top: 22%;
-    width: 65%;
-    height: 60%;
-    z-index: 3;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 1.0s ease;
-
-    &.is-active {
-        opacity: 1;
-    }
-}
-
-// Broad ambient pool — large radial, soft in every direction
-.water-reflection__halo {
-    position: absolute;
-    inset: -40px;
-    background: radial-gradient(
-        ellipse 55% 35% at 65% 35%,
-        rgba(255, 208, 60,  0.20) 0%,
-        rgba(230, 140, 15,  0.08) 50%,
-        transparent 80%
-    );
-    filter: blur(40px);
-}
-
-// Main streak — wide radial ellipse, focal point kept well inside
-.water-reflection__streak {
-    position: absolute;
-    inset: -20px;
-    background: radial-gradient(
-        ellipse 50% 28% at 68% 30%,
-        rgba(255, 242, 170, 0.68) 0%,
-        rgba(255, 205, 55,  0.42) 18%,
-        rgba(238, 148, 18,  0.18) 42%,
-        rgba(180,  85,  5,  0.05) 68%,
-        transparent 88%
-    );
-    filter: blur(8px);
-}
-
-// Ripples — thin concentric ellipses, very soft, stepping away from source
-.water-reflection__ripples {
-    position: absolute;
-    inset: 0;
-    background:
-        radial-gradient(ellipse 22% 4px  at 80% 28%, rgba(255, 248, 190, 0.28) 0%, transparent 100%),
-        radial-gradient(ellipse 30% 5px  at 73% 40%, rgba(255, 228, 130, 0.18) 0%, transparent 100%),
-        radial-gradient(ellipse 38% 6px  at 67% 52%, rgba(252, 208,  78, 0.13) 0%, transparent 100%),
-        radial-gradient(ellipse 45% 7px  at 61% 63%, rgba(244, 182,  45, 0.08) 0%, transparent 100%);
-    filter: blur(4px);
-    animation: ripple-shimmer 4.2s ease-in-out infinite alternate;
-}
-
-@keyframes ripple-shimmer {
-    from { opacity: 0.50; transform: translateX(0px)  scaleX(1.00); }
-    to   { opacity: 0.80; transform: translateX(5px)  scaleX(1.03); }
-}
-
-// Bright oval core — the point where the lamplight first touches the water
-.water-reflection__core {
-    position: absolute;
-    top: 18%;
-    right: 22%;
-    width: 44px;
-    height: 26px;
-    background: radial-gradient(
-        ellipse 50% 50% at 50% 50%,
-        rgba(255, 255, 235, 0.90)  0%,
-        rgba(255, 228, 110, 0.60)  44%,
-        transparent 100%
-    );
-    filter: blur(9px);
-    border-radius: 50%;
-}
-
-// Flicker — reuses same keyframes as the lamp cones
-#water-reflection-group.water-reflection-flickering {
-    .water-reflection__halo,
-    .water-reflection__streak,
-    .water-reflection__ripples,
-    .water-reflection__core {
-        animation: cone-flicker 0.45s steps(1) forwards;
-    }
-}
-
 // ─── Responsive ───────────────────────────────────────────────
 
 @media (max-width: 768px) {
     :root {
-        --lamp-width:   64px;
+        --lamp-width:   110px;
         --lamp-height:  300px;
         --cone-width:   440px;
     }
@@ -833,7 +584,7 @@ body {
 
 @media (max-width: 480px) {
     :root {
-        --lamp-width:   40px;
+        --lamp-width:   64px;
         --lamp-height:  180px;
         --cone-width:   280px;
     }
