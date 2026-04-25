@@ -76,16 +76,8 @@ function triggerFlicker(lampId: string, sectionEl: HTMLElement): void {
     if (!lamp) return;
 
     lamp.classList.add('lamp-flickering');
-    sectionEl.classList.add('header-flickering');
-    if (lampId === 'lamp-1') {
-        document.getElementById('logo')?.classList.add('flickering');
-    }
     setTimeout(() => {
         lamp.classList.remove('lamp-flickering');
-        sectionEl.classList.remove('header-flickering');
-        if (lampId === 'lamp-1') {
-            document.getElementById('logo')?.classList.remove('flickering');
-        }
     }, 480);
 }
 

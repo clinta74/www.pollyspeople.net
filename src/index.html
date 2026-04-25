@@ -13,26 +13,42 @@
 
 <body>
 
+    <!-- Shared SVG gradient/filter definitions referenced by all section header SVGs -->
+    <!-- display:none stops browsers processing gradients; use zero-size absolute instead -->
+    <svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true" focusable="false">
+        <defs>
+            <linearGradient id="gold-v" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%"   stop-color="#fff4b0"/>
+                <stop offset="10%"  stop-color="#f0d060"/>
+                <stop offset="28%"  stop-color="#c08828"/>
+                <stop offset="50%"  stop-color="#f8e070"/>
+                <stop offset="72%"  stop-color="#a87018"/>
+                <stop offset="90%"  stop-color="#e0b038"/>
+                <stop offset="100%" stop-color="#705010"/>
+            </linearGradient>
+        </defs>
+    </svg>
+
     <div class="lamp-stage">
 
         <!-- Art Deco Sconce 1  Left  Home -->
         <div class="lamp lamp--left" id="lamp-1">
-            <img class="lamp-fixture" src="lamp-fixture.png" alt="" aria-hidden="true"/>
+            <img class="lamp-fixture" src="img/lamp-fixture.png" alt="" aria-hidden="true"/>
         </div>
 
         <!-- Art Deco Sconce 2  Right  Projects -->
         <div class="lamp lamp--right" id="lamp-2">
-            <img class="lamp-fixture" src="lamp-fixture.png" alt="" aria-hidden="true"/>
+            <img class="lamp-fixture" src="img/lamp-fixture.png" alt="" aria-hidden="true"/>
         </div>
 
         <!-- Art Deco Sconce 3  Left  Downloads -->
         <div class="lamp lamp--left" id="lamp-3">
-            <img class="lamp-fixture" src="lamp-fixture.png" alt="" aria-hidden="true"/>
+            <img class="lamp-fixture" src="img/lamp-fixture.png" alt="" aria-hidden="true"/>
         </div>
 
         <!-- Art Deco Sconce 4  Right  The Dogs -->
         <div class="lamp lamp--right" id="lamp-4">
-            <img class="lamp-fixture" src="lamp-fixture.png" alt="" aria-hidden="true"/>
+            <img class="lamp-fixture" src="img/lamp-fixture.png" alt="" aria-hidden="true"/>
         </div>
 
         <!-- 
@@ -40,59 +56,7 @@
          -->
         <section class="section section--home" id="home" data-lamp="lamp-1">
 
-            <svg id="logo" viewBox="0 0 900 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Polly's People">
-                <defs>
-                    <!-- Steel gradient  reused by section header SVGs below -->
-                    <linearGradient id="steel-grad" x1="0" x2="0" y1="0" y2="1">
-                        <stop offset="0%"   stop-color="#8a8a9a"/>
-                        <stop offset="25%"  stop-color="#5a5a6e"/>
-                        <stop offset="55%"  stop-color="#2a2a36"/>
-                        <stop offset="80%"  stop-color="#1a1a24"/>
-                        <stop offset="100%" stop-color="#0e0e16"/>
-                    </linearGradient>
-                    <!-- Art Deco gold metallic  vertical warm sheen -->
-                    <linearGradient id="gold-v" x1="0" x2="0" y1="0" y2="1">
-                        <stop offset="0%"   stop-color="#fff4b0"/>
-                        <stop offset="10%"  stop-color="#f0d060"/>
-                        <stop offset="28%"  stop-color="#c08828"/>
-                        <stop offset="50%"  stop-color="#f8e070"/>
-                        <stop offset="72%"  stop-color="#a87018"/>
-                        <stop offset="90%"  stop-color="#e0b038"/>
-                        <stop offset="100%" stop-color="#705010"/>
-                    </linearGradient>
-                    <!-- Amber halo glow around title -->
-                    <filter id="gold-glow" x="-8%" y="-30%" width="116%" height="170%">
-                        <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/>
-                        <feColorMatrix in="blur" type="matrix"
-                            values="1.2 0.5 0 0 0.10
-                                    0.7 0.5 0 0 0.04
-                                    0   0   0 0 0
-                                    0   0   0 0.5 0" result="amber"/>
-                        <feMerge>
-                            <feMergeNode in="amber"/>
-                            <feMergeNode in="SourceGraphic"/>
-                        </feMerge>
-                    </filter>
-                </defs>
-
-                <!-- Monoton Art Deco title  gold sheen + warm glow -->
-                <g filter="url(#gold-glow)">
-                    <text x="450" y="90"
-                        text-anchor="middle"
-                        font-family="'Monoton', cursive"
-                        font-size="64"
-                        fill="url(#gold-v)">POLLY'S PEOPLE</text>
-                    <!-- Bright highlight outline for depth -->
-                    <text x="450" y="90"
-                        text-anchor="middle"
-                        font-family="'Monoton', cursive"
-                        font-size="64"
-                        fill="none"
-                        stroke="#fffcc0"
-                        stroke-width="0.6"
-                        opacity="0.45">POLLY'S PEOPLE</text>
-                </g>
-            </svg>
+            <img id="logo" src="img/pollyspeople-title.png" alt="Polly's People" />
 
             <p class="home-tagline">Est. in darkness.</p>
 
