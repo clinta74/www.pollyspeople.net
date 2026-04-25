@@ -1,0 +1,49 @@
+// ─── Responsive ───────────────────────────────────────────────
+
+@media (max-width: 768px) {
+    :root {
+        --lamp-width:   110px;
+        --lamp-height:  300px;
+        --cone-width:   440px;
+    }
+
+    .section {
+        padding: 60px var(--lamp-width);
+    }
+
+    #logo {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .download-item {
+        flex-direction: column;
+        align-items: center;
+
+        &__info {
+            width: 100%;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    :root {
+        --lamp-width:   64px;
+        --lamp-height:  180px;
+        --cone-width:   280px;
+    }
+
+    .section {
+        padding: 60px var(--lamp-width);
+    }
+
+    #logo {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .project-card__header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
