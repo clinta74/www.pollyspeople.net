@@ -1,1 +1,9 @@
-["polly-1.jpg", "polly-2.jpg", "polly-3.svg", "pixie-1.jpg", "pixie-2.svg", "mork-1.jpg", "mork-2.svg"]
+[
+  { "filename": "polly-1.jpg", "name": "Polly", "breed": "Black Labrador & Shepherd mix",                                   "born": 2010, "died": 2023 },
+  { "filename": "polly-2.jpg", "name": "Polly", "breed": "Black Labrador & Shepherd mix",                                   "born": 2010, "died": 2023 },
+  { "filename": "polly-3.svg", "name": "Polly", "breed": "Black Labrador & Shepherd mix",                                   "born": 2010, "died": 2023 },
+  { "filename": "pixie-1.jpg", "name": "Pixie", "breed": "Siberian Husky & American Bulldog Terrier mix",                  "born": 2024 },
+  { "filename": "pixie-2.svg", "name": "Pixie", "breed": "Siberian Husky & American Bulldog Terrier mix",                  "born": 2024 },
+  { "filename": "mork-1.jpg",  "name": "Mork",  "breed": "American Shepherd, American Bulldog Terrier & assorted mutt", "born": 2025 },
+  { "filename": "mork-2.svg",  "name": "Mork",  "breed": "American Shepherd, American Bulldog Terrier & assorted mutt", "born": 2025 }
+]

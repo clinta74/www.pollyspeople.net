@@ -1,0 +1,30 @@
+// ─── Art Deco Sconce Fixtures ────────────────────────────────
+
+.lamp {
+    position: absolute;
+    width: var(--lamp-width);
+    top: 0;          // JS overrides per-lamp via inline style
+    z-index: 20;
+    display: flex;
+    align-items: flex-start;
+    overflow: visible;
+    mix-blend-mode: screen;
+    -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+
+    &--left  { left: 0; flex-direction: row; }
+    &--right { right: 0; flex-direction: row-reverse; }
+
+    .lamp-fixture {
+        width: var(--lamp-width);
+        height: var(--lamp-height);
+        object-fit: contain;
+        object-position: top center;
+        flex-shrink: 0;
+        display: block;
+        filter: drop-shadow(0 0 4px rgba(0,0,0,0.8));
+        transition: filter 0.4s ease;
+    }
+
+    &--right .lamp-fixture { transform: scaleX(-1); }
+}

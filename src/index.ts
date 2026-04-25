@@ -1,7 +1,6 @@
 // ─────────────────────────────────────────────────────────────
 //  Polly's People — 1940s scroll + lamp controller
 // ─────────────────────────────────────────────────────────────
-import { DOGS } from './dogs-data';
 
 const activeLamps = new Set<string>();
 
@@ -21,8 +20,8 @@ function positionLamps(): void {
         const lamp = document.getElementById(lampId);
         if (!lamp) return;
 
-        // Home uses #logo; other sections use .section-header-svg
-        const title = section.querySelector<HTMLElement>('#logo, .section-header-svg');
+        // Home uses #logo; other sections use .section-header
+        const title = section.querySelector<HTMLElement>('#logo, .section-header');
         if (!title) return;
 
         const titleRect = title.getBoundingClientRect();
@@ -52,13 +51,10 @@ function initLampObserver(): void {
                     lamp.classList.remove('is-active');
                     void lamp.offsetWidth; // force reflow
                     lamp.classList.add('is-active');
-
-                    entry.target.classList.add('section-lit');
                     activeLamps.add(lampId);
 
                 } else {
                     lamp.classList.remove('is-active');
-                    entry.target.classList.remove('section-lit');
                     activeLamps.delete(lampId);
                 }
             });
@@ -69,39 +65,18 @@ function initLampObserver(): void {
     sections.forEach((s) => observer.observe(s));
 }
 
-// ── Per-lamp flicker: fires only while the lamp is active.
-//    Lamp-1 also flickers the logo in lockstep.
-function triggerFlicker(lampId: string, sectionEl: HTMLElement): void {
-    const lamp = document.getElementById(lampId);
-    if (!lamp) return;
-
-    lamp.classList.add('lamp-flickering');
-    setTimeout(() => {
-        lamp.classList.remove('lamp-flickering');
-    }, 480);
-}
-
-function scheduleFlicker(lampId: string, sectionEl: HTMLElement): void {
-    const delay = 3000 + Math.random() * 8000;
-    setTimeout(() => {
-        if (activeLamps.has(lampId)) {
-            triggerFlicker(lampId, sectionEl);
-        }
-        scheduleFlicker(lampId, sectionEl);
-    }, delay);
-}
-
-function initAllFlickers(): void {
-    document.querySelectorAll<HTMLElement>('.section[data-lamp]').forEach((section) => {
-        const lampId = section.dataset.lamp;
-        if (lampId) scheduleFlicker(lampId, section);
-    });
-}
-
 // ── Dog photo gallery ─────────────────────────────────────────
 //    Fetches /dogs/manifest.json, matches filenames to dog roster,
 //    and builds a click-to-cycle stacked card gallery.
 // ─────────────────────────────────────────────────────────────
+
+interface ManifestEntry {
+    filename: string;
+    name: string;
+    breed: string;
+    born: number;
+    died?: number;
+}
 
 interface PhotoEntry {
     url: string;
@@ -161,30 +136,25 @@ async function initDogGallery(): Promise<void> {
     const gallery = document.getElementById('dogs-gallery');
     if (!gallery) return;
 
-    let filenames: string[];
+    let manifest: ManifestEntry[];
     try {
         const res = await fetch('/dogs/manifest.json');
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        filenames = await res.json() as string[];
+        manifest = await res.json() as ManifestEntry[];
     } catch (err) {
         console.warn('Dogs gallery: could not load manifest.json', err);
         return;
     }
 
-    // Build photo entries by matching filename prefix to the DOGS roster
-    const entries: PhotoEntry[] = filenames.map((filename) => {
-        const prefix = filename.split('-')[0].toLowerCase();
-        const dog = DOGS.find(d => d.key === prefix);
-        const dateStr = dog
-            ? dog.died
-                ? `${dog.born} – ${dog.died}`
-                : `${dog.born} –`
-            : '';
+    const entries: PhotoEntry[] = manifest.map((entry) => {
+        const dateStr = entry.died
+            ? `${entry.born} – ${entry.died}`
+            : `${entry.born} –`;
         return {
-            url: `/dogs/${filename}`,
-            dogKey: prefix,
-            alt: dog ? `${dog.name}, ${dog.breed}` : filename,
-            label: dog ? `${dog.name}  ·  ${dateStr}` : filename,
+            url: `/dogs/${entry.filename}`,
+            dogKey: entry.name.toLowerCase(),
+            alt: `${entry.name}, ${entry.breed}`,
+            label: `${entry.name}  ·  ${dateStr}`,
         };
     });
 
@@ -247,8 +217,12 @@ async function initDogGallery(): Promise<void> {
 document.addEventListener('DOMContentLoaded', () => {
     positionLamps();
     initLampObserver();
-    initAllFlickers();
     initDogGallery();
+
+    // Re-position once web fonts (Monoton) have finished loading — the h2
+    // section headers are measured by positionLamps and their size changes
+    // once the custom font renders.
+    document.fonts.ready.then(positionLamps);
 });
 
 window.addEventListener('resize', positionLamps);

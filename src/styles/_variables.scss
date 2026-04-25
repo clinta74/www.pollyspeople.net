@@ -1,0 +1,18 @@
+:root {
+    --bg:               #000000;
+    --bg-section:       #000000;
+    --steel-dark:       #181820;
+    --steel-mid:        #3c3c4a;
+    --steel-highlight:  #8a8a9a;
+    --rust:             #4a2008;
+    --lamp-warm:        #f5c040;
+    --lamp-glow:        rgba(245, 192, 64, 0.18);
+    --lamp-glow-strong: rgba(245, 192, 64, 0.55);
+    --text-primary:     #c4c0b0;
+    --text-dim:         #504e48;
+
+    // Lamp geometry
+    --lamp-width:   200px;
+    --lamp-height:  520px;
+    --cone-width:   720px;
+}

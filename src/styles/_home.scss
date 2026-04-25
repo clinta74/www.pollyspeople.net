@@ -1,0 +1,44 @@
+// ─── Logo ─────────────────────────────────────────────────────
+
+#logo {
+    // Use 100% so the logo fills the section's content box (already inset by --lamp-width
+    // padding on both sides). max-width caps it on large screens.
+    width: 100%;
+    max-width: 900px;
+    height: auto;
+    display: block;
+}
+
+.home-tagline {
+    font-family: 'Special Elite', serif;
+    color: var(--text-dim);
+    font-size: clamp(0.75rem, 1.5vw, 1rem);
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 1.2em;
+    width: 100%;
+    max-width: 500px;
+
+    &::before,
+    &::after {
+        content: '';
+        flex: 1;
+        max-width: 120px;
+        height: 2px;
+        background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(192, 144, 48, 0.9)
+        );
+    }
+
+    &::after {
+        background: linear-gradient(
+            90deg,
+            rgba(192, 144, 48, 0.9),
+            transparent
+        );
+    }
+}
