@@ -14,6 +14,11 @@ RUN npm run build
 # ── Stage 2: Serve ────────────────────────────────────────────
 FROM nginx:alpine
 
+# Set nginx user UID/GID to 568 to match the app user on the Docker host
+RUN apk add --no-cache shadow \
+    && usermod -u 568 nginx \
+    && groupmod -g 568 nginx
+
 # Custom nginx config
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
