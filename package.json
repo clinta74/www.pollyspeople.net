@@ -1,6 +1,6 @@
 {
   "name": "www.pollyspeople.net",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "www.pollyspeople.net is a website dedicated to Polly, a dog who has been a beloved member of the family for many years. The website features photos, stories, and updates about Polly's life, as well as information about her breed and care. It serves as a tribute to Polly and a way for friends and family to stay connected with her adventures.",
   "scripts": {
     "start": "concurrently --kill-others-on-fail \"http-server ./dogs -p 3001 --cors\" \"parcel src/index.html --port 3000 --open\"",
